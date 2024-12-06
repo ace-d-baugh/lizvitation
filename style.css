@@ -15,6 +15,7 @@ body {
    background: blanchedalmond;
    position: relative;
    overflow: hidden;
+   perspective: 1000px;
 }
 
 .map {
@@ -23,46 +24,53 @@ body {
    left: 0;
    width: 100%;
    height: 100%;
-   perspective: 1000px;
    transition: all 1s ease-in-out;
-   display: flex;
+   perspective: 1000px;
 }
 
-.map::before {
-   content: '';
+.left-panel,
+.right-panel {
    position: absolute;
    top: 0;
+   width: 50%;
+   height: 100%;
+   transition: all 2s ease-in-out;
+   overflow: hidden;
+}
+
+.left-panel {
    left: 0;
-   width: 50%;
-   height: 100%;
    transform-origin: left;
-   background-image: url('map.jpg');
-   transition: all 2s ease-in-out;
-   background-position: left;
-   z-index: 1;
-   background-size: 200%;
 }
 
-.map::after {
-   content: '';
-   position: absolute;
-   top: 0;
+.right-panel {
    right: 0;
-   width: 50%;
-   height: 100%;
-   pointer-events: none;
    transform-origin: right;
-   background-image: url('map.jpg');
-   background-position: right;
-   transition: all 2s ease-in-out;
-   z-index: 1;
-   background-size: 200%;
 }
 
-.map:hover::before {
+.map-left,
+.map-right {
+   position: absolute;
+   width: 200%;
+   background-repeat: no-repeat;
+   transform: translateY(-50%);
+}
+
+.map-left {
+   left: 0;
+   width: 200%;
+   mask-image: url(cloud.png);
+}
+
+.map-right {
+   right: 0;
+   width: 200%;
+}
+
+.map:hover .left-panel {
    transform: rotateY(-90deg);
 }
 
-.map:hover::after {
+.map:hover .right-panel {
    transform: rotateY(90deg);
 }
