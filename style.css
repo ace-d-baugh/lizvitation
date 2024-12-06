@@ -51,6 +51,7 @@ body {
 .map-left,
 .map-right {
    position: absolute;
+   top: 50%;
    width: 200%;
    background-repeat: no-repeat;
    transform: translateY(-50%);
@@ -58,13 +59,11 @@ body {
 
 .map-left {
    left: 0;
-   width: 200%;
    mask-image: url(cloud.png);
 }
 
 .map-right {
    right: 0;
-   width: 200%;
 }
 
 .map:hover .left-panel {
