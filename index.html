@@ -1,26 +1,46 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Lizvitation</title>
-   <link rel="stylesheet" href="style.css">
-</head>
-<body>
-   <div class="invite"></div>
-   <div class="map">
-      <div class="left-panel">
-         <img src="map.jpg" class="map-left" alt="">
-      </div>
-      <div class="right-panel">
-         <img src="map.jpg" class="map-right" alt="">
-      </div>
-      <div class="filter">
-         
-      </div>
-   </div>
-   <div class="open-btn"></div>
-   <div class="wand"></div>
-</body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Lizvitation</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="invite">
+			<div class="open-btn cloaked" id="close-btn" onclick="closeMap()">Mischief Managed!</div>
+		</div>
+		<div class="map">
+			<div class="left-panel">
+				<img src="map.jpg" class="map-left" alt="" />
+			</div>
+			<div class="right-panel">
+				<img src="map.jpg" class="map-right" alt="" />
+			</div>
+			<div class="filter"></div>
+			<div class="open-btn" id="open-btn" onclick="openMap()">Invitare Aperio!</div>
+		</div>
+
+		<script src="script.js"></script>
+		<script>
+			function openMap() {
+				document.querySelector('.left-panel').classList.add('open');
+				document.querySelector('.right-panel').classList.add('open');
+				document.querySelector('#open-btn').classList.add('cloaked');
+            document.querySelector('#close-btn').classList.remove('cloaked');
+				setTimeout(function () {
+					document.querySelector('.map').classList.add('cloaked');
+				}, 4000);
+			}
+
+			function closeMap() {
+				document.querySelector('.left-panel').classList.remove('open');
+				document.querySelector('.right-panel').classList.remove('open');
+				document.querySelector('#open-btn').classList.remove('cloaked');
+            document.querySelector('#close-btn').classList.add('cloaked');
+            document.querySelector('.map').classList.remove('cloaked');
+			}
+		</script>
+	</body>
 </html>

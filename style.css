@@ -2,121 +2,148 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 * {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-   font-family: 'Roboto', sans-serif;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Roboto', sans-serif;
 }
 
 body {
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   min-height: 100vh;
-   background: blanchedalmond;
-   position: relative;
-   overflow: hidden;
-   perspective: 1000px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background: rgb(255, 235, 205);
+	position: relative;
+	overflow: hidden;
+	perspective: 1000px;
+	cursor: url('wand.png'), grab;
 }
 
 .invite {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   z-index: -1;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
 }
 
 .map {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   transition: all 1s ease-in-out;
-   perspective: 1000px;
-   z-index: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	transition: all 0.1s ease-in-out;
+	perspective: 1000px;
+	z-index: 3;
 }
 
 .left-panel,
 .right-panel {
-   position: absolute;
-   top: 0;
-   width: 50%;
-   height: 100%;
-   transition: all 2s ease-in-out;
-   transition-delay: 2s;
-   overflow: hidden;
+	position: absolute;
+	top: 0;
+	width: 50%;
+	height: 100%;
+	transition: all 2s ease-in-out;
+	transition-delay: 2s;
+	overflow: hidden;
 }
 
 .left-panel {
-   left: 0;
-   transform-origin: left;
+	left: 0;
+	transform-origin: left;
 }
 
 .right-panel {
-   right: 0;
-   transform-origin: right;
+	right: 0;
+	transform-origin: right;
 }
 
 .map-left,
 .map-right {
-   position: absolute;
-   top: 50%;
-   transform: translateY(-50%);
-   width: 200%;
-   height: 100%;
-   transition: all 2s ease-in-out;
-   object-fit: cover;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 200%;
+	height: 100%;
+	transition: all 2s ease-in-out;
+	object-fit: cover;
 }
 
 .map-left {
-   left: 0;
-   transform-origin: left;
+	left: 0;
+	transform-origin: left;
 }
 
 .map-right {
-   right: 0;
-   transform-origin: right;
-}
-
-.left-panel img {
-   mask-image: url(smoke.png);
+	right: 0;
+	transform-origin: right;
 }
 
 .left-panel::after {
-   content: '';
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   z-index: 2;
-   transition: all 2s ease-in-out;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	transition: all 2s ease-in-out;
 }
-
-.right-panel img {
-   mask-image: url(smoke.png);
-} 
 
 .right-panel::after {
-   content: '';
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   z-index: 2;
-   transition: all 2s ease-in-out;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	transition: all 2s ease-in-out;
 }
 
-/* -- For Animation -- 
-.map:hover .left-panel {
-   transform: rotateY(-90deg);
+.open-btn {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 65%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 200px;
+	height: 80px;
+	background: rgba(255, 235, 205, 0.5);
+	backdrop-filter: blur(10px);
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+	color: rgba(85, 0, 0, 1);
+	font-size: 20px;
+	font-weight: 700;
+	text-align: center;
+	border-radius: 20px;
+	overflow: hidden;
+	z-index: 5;
+	cursor: url('wand.png'), pointer;
+	transition: all 0.5s ease-in-out;
+	opacity: 1;
 }
 
-.map:hover .right-panel {
-   transform: rotateY(90deg);
-} */
+.open-btn:hover {
+	width: 240px;
+	height: 85px;
+	letter-spacing: 2px;
+	box-shadow: 0 0 40px rgba(85, 0, 0, 0.5);
+}
 
+.cloaked {
+	opacity: 0;
+	z-index: -1;
+}
+
+/*-- For Animation -- */
+.left-panel.open {
+	transform: rotateY(-90deg);
+}
+
+.right-panel.open {
+	transform: rotateY(90deg);
+}
