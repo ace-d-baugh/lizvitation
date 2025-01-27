@@ -38,6 +38,7 @@ body {
 	height: 100%;
 	perspective: 1000px;
 	z-index: 3;
+	overflow: hidden;
 }
 
 .left-panel,
