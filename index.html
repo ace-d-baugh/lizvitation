@@ -20,6 +20,7 @@
 			</div>
 			<div class="filter"></div>
 			<div class="open-btn" id="open-btn" onclick="openMap()">Invitare Aperio!</div>
+			<div class="wand"><img src="wand.png" alt="" /></div>
 		</div>
 
 		<script src="script.js"></script>
@@ -28,18 +29,20 @@
 				document.querySelector('.left-panel').classList.add('open');
 				document.querySelector('.right-panel').classList.add('open');
 				document.querySelector('#open-btn').classList.add('cloaked');
-            document.querySelector('#close-btn').classList.remove('cloaked');
+				document.querySelector('#close-btn').classList.remove('cloaked');
 				setTimeout(function () {
 					document.querySelector('.map').classList.add('cloaked');
-				}, 3000);
+				}, 8000);
+				document.querySelector('.wand').classList.add('spell');
 			}
 
 			function closeMap() {
 				document.querySelector('.left-panel').classList.remove('open');
 				document.querySelector('.right-panel').classList.remove('open');
 				document.querySelector('#open-btn').classList.remove('cloaked');
-            document.querySelector('#close-btn').classList.add('cloaked');
-            document.querySelector('.map').classList.remove('cloaked');
+				document.querySelector('#close-btn').classList.add('cloaked');
+				document.querySelector('.map').classList.remove('cloaked');
+				document.querySelector('.wand').classList.remove('spell');
 			}
 		</script>
 	</body>
