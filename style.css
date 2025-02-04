@@ -21,6 +21,8 @@ body {
 	align-items: center;
 	min-height: 100vh;
 	width: 100%;
+	margin: 0;
+	padding: 0;
 	background: var(--map-base);
 	position: relative;
 	overflow: hidden;
@@ -35,6 +37,20 @@ body {
 	width: 100%;
 	height: 100%;
 	z-index: 2;
+}
+
+.invite::before {
+	content: '';
+	background: url('spots.png');
+	transform-origin: center;
+	top: -100%;
+	left: -100%;
+	transform: translate(-50%, -50%);
+	position: absolute;
+	border: 2px solid var(--ink);
+	width: 400%;
+	height: 400%;
+	transform: rotate(35deg);
 }
 
 .map {
