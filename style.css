@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 :root {
-	--ink: rgba(63, 25, 24, 1);
+	--ink: rgba(65, 0, 0, 1);
 	--ink-dark: rgba(34, 4, 0, 1);
 	--map-base: rgba(199, 167, 123, 1);
 	--foot-step: rgba(83, 41, 20, 1);
