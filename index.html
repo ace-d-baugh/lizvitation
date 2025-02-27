@@ -23,55 +23,56 @@
 
 		<script>
 			function openMap() {
-				// Create the image element
-				const mapImageLeft = document.createElement('img');
-				mapImageLeft.src = 'map.gif';
-				mapImageLeft.className = 'map-left';
-				mapImageLeft.alt = '';
-				const mapImageRight = document.createElement('img');
-				mapImageRight.src = 'map.gif';
-				mapImageRight.className = 'map-right';
-				mapImageRight.alt = '';
-				
-				setTimeout(function () {
-					// Append it to left-panel
-					const leftPanel = document.querySelector('.left-panel');
-					leftPanel.appendChild(mapImageLeft);
-					// Append it to right-panel
-					const rightPanel = document.querySelector('.right-panel');
-					rightPanel.appendChild(mapImageRight);
-				}, 2500);
-				
+                // Solution 1: Add a timestamp to the image source to force reload
+                const timestamp = new Date().getTime();
+                
+                // Create the image elements
+                const mapImageLeft = document.createElement('img');
+                mapImageLeft.src = `map.gif?t=${timestamp}`; // Adds unique query parameter
+                mapImageLeft.className = 'map-left';
+                mapImageLeft.alt = '';
+                
+                const mapImageRight = document.createElement('img');
+                mapImageRight.src = `map.gif?t=${timestamp}`; // Same timestamp for both
+                mapImageRight.className = 'map-right';
+                mapImageRight.alt = '';
+                
+                setTimeout(function () {
+                    const leftPanel = document.querySelector('.left-panel');
+                    leftPanel.appendChild(mapImageLeft);
+                    const rightPanel = document.querySelector('.right-panel');
+                    rightPanel.appendChild(mapImageRight);
+                }, 2500);
 
-				document.querySelector('.left-panel').classList.add('open');
-				document.querySelector('.right-panel').classList.add('open');
-				document.querySelector('#open-btn').classList.add('cloaked');
-				document.querySelector('#close-btn').classList.remove('cloaked');
-				setTimeout(function () {
-					document.querySelector('.map').classList.add('cloaked');
-				}, 8000);
-				document.querySelector('.wand').classList.add('spell');
-			}
+                // Rest of your original code
+                document.querySelector('.left-panel').classList.add('open');
+                document.querySelector('.right-panel').classList.add('open');
+                document.querySelector('#open-btn').classList.add('cloaked');
+                document.querySelector('#close-btn').classList.remove('cloaked');
+                setTimeout(function () {
+                    document.querySelector('.map').classList.add('cloaked');
+                }, 8000);
+                document.querySelector('.wand').classList.add('spell');
+            }
 
 			function closeMap() {
-				document.querySelector('.left-panel').classList.remove('open');
-				document.querySelector('.right-panel').classList.remove('open');
-				document.querySelector('#open-btn').classList.remove('cloaked');
-				document.querySelector('#close-btn').classList.add('cloaked');
-				document.querySelector('.map').classList.remove('cloaked');
-				document.querySelector('.wand').classList.remove('spell');
-				setTimeout(function () {
-					document.querySelector('.map-left').classList.add('cloaked');
-					document.querySelector('.map-right').classList.add('cloaked');
-				}, 500);
-				// Remove the images from the DOM
-				setTimeout(function () {
-					const leftPanel = document.querySelector('.left-panel');
-					leftPanel.innerHTML = '';
-					const rightPanel = document.querySelector('.right-panel');
-					rightPanel.innerHTML = '';
-				}, 5000);
-			}
+                document.querySelector('.left-panel').classList.remove('open');
+                document.querySelector('.right-panel').classList.remove('open');
+                document.querySelector('#open-btn').classList.remove('cloaked');
+                document.querySelector('#close-btn').classList.add('cloaked');
+                document.querySelector('.map').classList.remove('cloaked');
+                document.querySelector('.wand').classList.remove('spell');
+                setTimeout(function () {
+                    document.querySelector('.map-left')?.classList.add('cloaked');
+                    document.querySelector('.map-right')?.classList.add('cloaked');
+                }, 500);
+                setTimeout(function () {
+                    const leftPanel = document.querySelector('.left-panel');
+                    leftPanel.innerHTML = '';
+                    const rightPanel = document.querySelector('.right-panel');
+                    rightPanel.innerHTML = '';
+                }, 5000);
+            }
 		</script>
 	</body>
 </html>
