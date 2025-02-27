@@ -27,7 +27,7 @@ body {
 	position: relative;
 	overflow: hidden;
 	perspective: 1000px;
-	cursor: url('d-wand.png'), pointer;
+	cursor: url('wand.png'), pointer;
 }
 
 .invite {
@@ -150,7 +150,7 @@ body {
 	border: 2px solid var(--ink);
 	overflow: hidden;
 	z-index: 5;
-	cursor: url('d-wand.png'), pointer;
+	cursor: url('wand.png'), pointer;
 	transition: all 0.5s ease-in-out;
 	opacity: 1;
 }
