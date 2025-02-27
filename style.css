@@ -37,6 +37,7 @@ body {
 	width: 100%;
 	height: 100%;
 	z-index: 2;
+	overflow: hidden;
 }
 
 .invite::before {
@@ -47,7 +48,6 @@ body {
 	left: -100%;
 	transform: translate(-50%, -50%);
 	position: absolute;
-	border: 2px solid var(--ink);
 	width: 400%;
 	height: 400%;
 	transform: rotate(35deg);
@@ -204,4 +204,16 @@ body {
 		top: 35vh;
 		left: 120vw;
 	}
+}
+
+/* Media Query for Mobile */
+@media (max-width: 768px) {
+    .map {
+        width: 100vw;
+        height: 100vh;
+    }
+    .left-panel,
+    .right-panel {
+        width: 50%;
+    }
 }

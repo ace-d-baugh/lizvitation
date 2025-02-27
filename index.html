@@ -23,10 +23,8 @@
 
 		<script>
 			function openMap() {
-                // Solution 1: Add a timestamp to the image source to force reload
                 const timestamp = new Date().getTime();
                 
-                // Create the image elements
                 const mapImageLeft = document.createElement('img');
                 mapImageLeft.src = `map.gif?t=${timestamp}`; // Adds unique query parameter
                 mapImageLeft.className = 'map-left';
@@ -44,7 +42,6 @@
                     rightPanel.appendChild(mapImageRight);
                 }, 2500);
 
-                // Rest of your original code
                 document.querySelector('.left-panel').classList.add('open');
                 document.querySelector('.right-panel').classList.add('open');
                 document.querySelector('#open-btn').classList.add('cloaked');
