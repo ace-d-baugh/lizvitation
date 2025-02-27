@@ -106,6 +106,7 @@ body {
 	height: 100%;
 	transition: all 2s ease-in-out;
 	object-fit: cover;
+	opacity: 1;
 }
 
 .map-left {
@@ -140,14 +141,13 @@ body {
 	transform: translate(-50%, -50%);
 	width: 200px;
 	height: 80px;
-	background: rgba(255, 235, 205, 0.5);
-	backdrop-filter: blur(10px);
 	box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 	color: var(--ink);
 	font-size: 20px;
 	font-weight: 700;
 	text-align: center;
 	border-radius: 20px;
+	border: 2px solid var(--ink);
 	overflow: hidden;
 	z-index: 5;
 	cursor: url('d-wand.png'), pointer;
@@ -158,6 +158,8 @@ body {
 .open-btn:hover {
 	width: 240px;
 	height: 85px;
+	background: rgba(255, 235, 205, 0.5);
+	backdrop-filter: blur(10px);
 	letter-spacing: 2px;
 	box-shadow: 0 0 40px rgba(85, 0, 0, 0.5);
 }
@@ -184,17 +186,17 @@ body {
 		left: 75vw;
 	}
 	33% {
-		top: 50%;
+		top: 47%;
 		left: calc(50vw + 10px);
 		transform: rotateZ(0deg);
 	}
 	40% {
-		top: 50%;
+		top: 47%;
 		left: calc(50vw + 10px);
 		transform: rotateZ(-45deg);
 	}
 	50% {
-		top: 50%;
+		top: 47%;
 		left: calc(50vw + 10px);
 		transform: rotateZ(0deg);
 	}
