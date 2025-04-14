@@ -9,7 +9,21 @@
 	</head>
 	<body>
 		<div class="invite">
-			<div class="open-btn cloaked" id="close-btn" onclick="closeMap()">Mischief Managed!</div>
+			<div class="invite-copy">
+				<div class="crest"><img src="hogwarts-crest.png" alt="" /></div>
+				<div class="to-gender left">To Our Fellow <span class="guest-gender"></span>:</div>
+				<div class="dear-guest left">Dear <span class="guest-name"></span>,</div>
+				<div class="invite-info">
+					<div class="invite-what left"><p>We are pleased to inform you that you have been cordially invited to Elizabeth and Mason’s Wedding Celebration. Please be understanding that we can only accommodate children of immediate family at this event. If you have any allergies or food restrictions, please fill out the google form attached to this letter.</p></div>
+					<div class="invite-rsvp left"><p>We very much look forward to your owl by <span class="bold">NO LATER</span> than <span class="underline">August 12th, 2025</span>.</p></div>
+					<div class="invite-when center"><p>October 12th, 2025</p><p>@ 6pm EST</p></div>
+					<div class="invite-where center"><p>The Pines at Windermere</p><p>3409 Maguire Rd, Windermere, FL 34786</p></div>
+				</div>
+				<div class="sincerely left"><p>Yours Sincerely,</p></div>
+				<div class="signature left">Elizabeth and Mason</div>
+
+			</div>
+			<div class="close-btn cloaked" id="close-btn" onclick="closeMap()">Mischief Managed!</div>
 		</div>
 		<div class="map">
 			<div class="left-panel">
@@ -22,6 +36,29 @@
 		</div>
 
 		<script>
+
+			//create a blank object with name and gender properties
+			const guest = {
+				name: '',
+				gender: ''
+			};
+
+			//get the guest name and gender from the url variables
+			const urlParams = new URLSearchParams(window.location.search);
+			guest.name = urlParams.get('n');
+			guest.gender = getWitch(urlParams.get('g'));
+
+			//get the witch from the gender
+			function getWitch(gender) {
+				if (gender === 'm') return 'Wizard';
+				else if (gender === 'f') return 'Witch';
+				else return 'Unknown';
+			}
+
+			//set the guest name and gender in the invite
+			document.querySelector('.guest-name').textContent = guest.name;
+			document.querySelector('.guest-gender').textContent = guest.gender;
+
 			function openMap() {
                 const timestamp = new Date().getTime();
                 
