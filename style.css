@@ -1,19 +1,23 @@
 /* style.css */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@font-face {
+	font-family: 'letter-font';
+	src: url('letter-font.ttf');
+}
 
 :root {
 	--ink: rgba(65, 0, 0, 1);
 	--ink-dark: rgba(34, 4, 0, 1);
 	--map-base: rgba(199, 167, 123, 1);
 	--foot-step: rgba(83, 41, 20, 1);
-	--font: cursive;
+	--font: letter-font;
 }
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: 'Roboto', sans-serif;
+	font-family: var(--font);
 }
 
 body {
@@ -41,7 +45,6 @@ body {
 	width: 100vw;
 	min-height: 100vh;
 	z-index: 2;
-	font-family: var(--font);
 }
 
 .invite::before {
@@ -79,6 +82,59 @@ body {
 	align-items: center;
 	flex-direction: column;
 	z-index: 2;
+	color: var(--ink-dark);
+}
+
+.crest img {
+	width: 150px;
+	height: 150px;
+}
+
+.to-gender {
+	font-size: 20px;
+	padding-bottom: 1.2rem;
+}
+
+.dear-guest {
+	font-size: 20px;
+	font-weight: 700;
+	padding-bottom: 1.2rem;
+}
+
+.invite-what, .sincerely, .signature, .bride-groom, .form-link {
+	padding-bottom: 1rem;
+}
+
+.invite-rsvp, .invite-where {
+	padding-bottom: 1.2rem;
+}
+
+.no-later {
+	color: var(--ink);
+	font-size: .9rem;
+}
+
+.signature {
+	font-size: 20px;
+	color: var(--ink);
+}
+.form-link a {
+	color: var(--ink-dark);
+	text-decoration: none;
+	font-weight: 700;
+	transition: all 0.5s ease-in-out;
+	cursor: url('wand.png'), pointer;
+}
+
+.links {
+	text-decoration: none;
+	cursor: url('wand.png'), pointer;
+	color: var(--ink-dark);
+}
+
+.form-link a:hover, .links:hover {
+	color: var(--ink);
+	text-decoration: wavy underline;
 }
 
 .map {
