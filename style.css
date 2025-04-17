@@ -8,7 +8,7 @@
 :root {
 	--ink: rgba(65, 0, 0, 1);
 	--ink-dark: rgba(34, 4, 0, 1);
-	--map-base: rgba(199, 167, 123, 1);
+	--map-base: rgba(209, 201, 185, 1);
 	--foot-step: rgba(83, 41, 20, 1);
 	--font: letter-font;
 }
@@ -45,7 +45,7 @@ body {
 	width: 100vw;
 	min-height: 100vh;
 	z-index: 2;
-	padding: 0 2rem;
+	padding: 2rem;
 }
 
 .invite::before {
@@ -102,8 +102,13 @@ body {
 	padding-bottom: 1.2rem;
 }
 
-.invite-what, .sincerely, .signature, .bride-groom, .form-link {
+.invite-what, .sincerely, .signature, .restrictions, .invite-copy {
 	padding-bottom: 1rem;
+}
+
+.restrictions, .understand {
+	font-size: .8rem;
+	padding-top: 1rem;
 }
 
 .invite-rsvp, .invite-where {
@@ -216,7 +221,7 @@ body {
 	animation: spell 6s forwards;
 }
 
-.open-btn, .close-btn {
+.open-btn, .close-btn, .rsvp-btn {
 	display: flex;
 	justify-content: center;
 	align-items: center;
