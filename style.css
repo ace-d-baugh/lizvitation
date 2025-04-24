@@ -6,13 +6,14 @@
 }
 @font-face {
 	font-family: 'fun-font';
-	src: url('HarryP.ttf');
+	src: url('HarryPotter.ttf');
 }
 
 :root {
 	--ink: rgba(65, 0, 0, 1);
 	--ink-dark: rgba(34, 4, 0, 1);
 	--map-base: rgba(209, 201, 185, 1);
+	--map-base-grad: radial-gradient(ellipse at 50% 50%, rgb(209, 201, 185, 1) 50%, rgba(209, 201, 185, 0) 70%);
 	--foot-step: rgba(83, 41, 20, 1);
 	--font: letter-font;
 	--fun: fun-font;
@@ -51,7 +52,7 @@ body {
 	width: 100vw;
 	min-height: 100vh;
 	z-index: 2;
-	padding: 2rem;
+	padding: 1rem 0;
 }
 
 .invite::before {
@@ -89,7 +90,9 @@ body {
 	align-items: center;
 	flex-direction: column;
 	z-index: 2;
+	background: var(--map-base-grad);
 	color: var(--ink-dark);
+	padding: 1rem;
 }
 
 .crest img {
@@ -106,14 +109,13 @@ body {
 	font-size: 20px;
 	font-weight: 400;
 	padding-bottom: 1.2rem;
+	display: inline-flex;
+	align-items: baseline;
 }
 
 .guest-name {
 	font-size: 25px;
 	font-family: var(--fun);
-	transform: scaleX(1.5);
-	display: inline-block;
-	padding: 0 15px;
 }
 
 .invite-what, .sincerely, .signature, .restrictions, .invite-copy {
