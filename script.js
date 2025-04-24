@@ -13,6 +13,7 @@ guest.gender = getWitch(urlParams.get('g'));
 function getWitch(gender) {
     if (gender === 'm') return 'Wizard';
     else if (gender === 'f') return 'Witch';
+    else if (gender === 'g') return 'Magic Folk';
     else return 'Muggle';
 }
 
