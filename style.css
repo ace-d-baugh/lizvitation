@@ -1,8 +1,12 @@
 /* style.css */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Imperial+Script&family=Parisienne&display=swap');
 @font-face {
 	font-family: 'letter-font';
 	src: url('letter-font.ttf');
+}
+@font-face {
+	font-family: 'fun-font';
+	src: url('HarryP.ttf');
 }
 
 :root {
@@ -11,6 +15,8 @@
 	--map-base: rgba(209, 201, 185, 1);
 	--foot-step: rgba(83, 41, 20, 1);
 	--font: letter-font;
+	--fun: fun-font;
+	--script: "Imperial Script", cursive;
 }
 
 * {
@@ -88,7 +94,7 @@ body {
 
 .crest img {
 	width: 150px;
-	height: 150px;
+	height: 159px;
 }
 
 .to-gender {
@@ -98,8 +104,16 @@ body {
 
 .dear-guest {
 	font-size: 20px;
-	font-weight: 700;
+	font-weight: 400;
 	padding-bottom: 1.2rem;
+}
+
+.guest-name {
+	font-size: 25px;
+	font-family: var(--fun);
+	transform: scaleX(1.5);
+	display: inline-block;
+	padding: 0 15px;
 }
 
 .invite-what, .sincerely, .signature, .restrictions, .invite-copy {
@@ -121,8 +135,9 @@ body {
 }
 
 .signature {
-	font-size: 20px;
+	font-size: 30px;
 	color: var(--ink);
+	font-family: var(--script);
 }
 .form-link a {
 	color: var(--ink-dark);
@@ -221,7 +236,14 @@ body {
 	animation: spell 6s forwards;
 }
 
-.open-btn, .close-btn, .rsvp-btn {
+.rsvp-cal-btns {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.open-btn, .close-btn, .rsvp-btn, .cal-btn {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -235,6 +257,8 @@ body {
 	border-radius: 20px;
 	border: 2px solid var(--ink);
 	overflow: hidden;
+	padding: 10px;
+	margin: 10px;
 	z-index: 5;
 	cursor: url('wand.png'), pointer;
 	transition: all 0.5s ease-in-out;
@@ -248,7 +272,7 @@ body {
 	transform: translate(-50%, -50%);
 }
 
-.open-btn:hover, .close-btn:hover {
+.open-btn:hover, .close-btn:hover, .cal-btn:hover, .rsvp-btn:hover {
 	width: 240px;
 	height: 85px;
 	background: rgba(255, 235, 205, 0.5);
@@ -260,6 +284,7 @@ body {
 .cloaked {
 	opacity: 0;
 	z-index: -1;
+	height: 0;
 }
 
 /*-- For Animation -- */
