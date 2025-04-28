@@ -115,5 +115,157 @@ function generateCalendarLink() {
     link.href = url;
 
     // Clean up
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setTimeout(() => URL.revokeObjectURL(url), 750);
+}
+
+// Function to create shoe print
+function createShoePrint(x, y, direction, isLeft) {
+  const shoePrint = document.createElement('div');
+  shoePrint.classList.add('shoe-print');
+
+  // Determine the rotation based on the direction
+  let rotation;
+  switch (direction) {
+    case 'up':
+      rotation = 'rotate(0deg)';
+      break;
+    case 'down':
+      rotation = 'rotate(180deg)';
+      break;
+    case 'left':
+      rotation = 'rotate(-90deg)';
+      break;
+    case 'right':
+      rotation = 'rotate(90deg)';
+      break;
+    default:
+      rotation = 'rotate(0deg)';
+  }
+
+  // Alternate between left and right shoe prints
+  if (isLeft) {
+    shoePrint.style.transform = `${rotation} scaleX(1)`;
+  } else {
+    shoePrint.style.transform = `${rotation} scaleX(-1)`;
+  }
+
+  shoePrint.style.top = `${y}px`;
+  shoePrint.style.left = `${x}px`;
+
+  document.body.appendChild(shoePrint);
+
+  // Fade out after 2 seconds
+  setTimeout(() => {
+    shoePrint.classList.add('fade');
+    setTimeout(() => {
+      shoePrint.remove();
+    }, 1000); // Wait for the fade transition to complete
+  }, 2000);
+}
+
+// Function to create shoe print trail
+function createShoePrintTrail(x, y, direction) {
+  let currentX = x;
+  let currentY = y;
+  let isOffset = false;
+  let intervalId = setInterval(() => {
+    createShoePrint(currentX, currentY, direction, isOffset);
+
+    // Update position based on direction
+    switch (direction) {
+      case 'up':
+        currentY -= 40;
+        if (isOffset) {
+          currentX += 15;
+        } else {
+          currentX -= 15;
+        }
+        isOffset = !isOffset;
+        break;
+      case 'down':
+        currentY += 40;
+        if (isOffset) {
+          currentX += 15;
+        } else {
+          currentX -= 15;
+        }
+        isOffset = !isOffset;
+        break;
+      case 'left':
+        currentX -= 40;
+        if (isOffset) {
+          currentY += 15;
+        } else {
+          currentY -= 15;
+        }
+        isOffset = !isOffset;
+        break;
+      case 'right':
+        currentX += 40;
+        if (isOffset) {
+          currentY += 15;
+        } else {
+          currentY -= 15;
+        }
+        isOffset = !isOffset;
+        break;
+    }
+
+    // Stop when off-screen
+    if (currentX < 0 || currentX > window.innerWidth || currentY < 0 || currentY > window.innerHeight) {
+      clearInterval(intervalId);
+    }
+  }, 1000); // Create a shoe print every 1 second
+}
+
+// Function to generate random shoe print trails
+function generateShoePrintTrails() {
+  let intervalId = setInterval(() => {
+    let x = Math.random() * window.innerWidth;
+    let y = Math.random() * window.innerHeight;
+    let directions = ['up', 'down', 'left', 'right'];
+    let direction = directions[Math.floor(Math.random() * directions.length)];
+
+    // Start from edge of screen
+    switch (direction) {
+      case 'up':
+        y = window.innerHeight;
+        break;
+      case 'down':
+        y = 0;
+        break;
+      case 'left':
+        x = window.innerWidth;
+        break;
+      case 'right':
+        x = 0;
+        break;
+    }
+
+    createShoePrintTrail(x, y, direction);
+  }, 2000); // Generate a shoe print trail every 2 seconds
+
+  return intervalId;
+}
+
+// Start generating shoe print trails when the map is opened
+let trailIntervalId = null;
+const originalOpenMap = openMap;
+openMap = function() {
+  originalOpenMap();
+  trailIntervalId = generateShoePrintTrails();
+}
+
+const originalCloseMap = closeMap;
+closeMap = function() {
+  originalCloseMap();
+  if (trailIntervalId !== null) {
+    clearInterval(trailIntervalId);
+    trailIntervalId = null;
+  }
+  stopShoePrints();
+}
+// Function to stop generating shoe prints
+function stopShoePrints() {
+  // No implementation needed in this case
 }

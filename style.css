@@ -283,6 +283,40 @@ body {
 	box-shadow: 0 0 40px rgba(85, 0, 0, 0.5);
 }
 
+.shoe-print {
+  position: absolute;
+  width: 10px;
+  height: 27px;
+  opacity: 1;
+  transition: opacity 1s ease-out;
+}
+
+.shoe-print::before,
+.shoe-print::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--ink);
+}
+
+.shoe-print::before {
+  width: 10px;
+  height: 20px;
+  top: 0;
+  left: 0;
+}
+
+.shoe-print::after {
+  width: 8px;
+  height: 12px;
+  top: 15px;
+  left: 1px;
+}
+
+.shoe-print.fade {
+  opacity: 0;
+}
+
 .cloaked {
 	opacity: 0;
 	z-index: -1;
