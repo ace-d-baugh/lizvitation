@@ -136,11 +136,16 @@ body {
 	font-size: .9rem;
 }
 
+h2.signature {
+	font-size: 40px;
+}
+
 .signature {
 	font-size: 30px;
 	color: var(--ink);
 	font-family: var(--script);
 }
+
 .form-link a {
 	color: var(--ink-dark);
 	text-decoration: none;

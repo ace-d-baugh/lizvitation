@@ -78,7 +78,7 @@ function generateCalendarLink() {
         title: "Elizabeth & Mason's Wedding Celebration",
         description: "Come celebrate our wedding with us! We're so excited to have you here!",
         location: "3409 Maguire Rd, Windermere, FL 34786",
-        start: new Date("2025-10-12T22:00:00Z"), // 18:00 ET (UTC-4)
+        start: new Date("2025-10-12T21:30:00Z"), // 17:30 ET (UTC-4)
         end: new Date("2025-10-13T03:59:59Z"),   // 23:59:59 ET (UTC-4)
         url: "https://www.pinesatwindermere.com/"
     };
