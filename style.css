@@ -78,6 +78,10 @@ body {
 	font-weight: 700;
 }
 
+.bigger {
+ font-size: 1.1rem;
+}
+
 .underline {
 	text-decoration: underline;
 }
