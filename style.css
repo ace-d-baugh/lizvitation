@@ -2,11 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Imperial+Script&family=Parisienne&display=swap');
 @font-face {
 	font-family: 'letter-font';
-	src: url('letter-font.ttf');
+	src: url('letter-font.woff2') format('woff2');
+	font-display: swap;
 }
 @font-face {
 	font-family: 'fun-font';
-	src: url('HarryPotter.ttf');
+	src: url('HarryPotter.woff2') format('woff2');
+	font-display: swap;
 }
 
 :root {
@@ -27,30 +29,49 @@
 	font-family: var(--font);
 }
 
+html {
+	/* kills the classic 100vw-includes-the-scrollbar bug: anything sized
+	   or positioned with 100vw could overflow the visible page by the
+	   scrollbar's width and open up empty horizontal scroll space */
+	overflow-x: hidden;
+}
+
 body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
+	min-height: 100svh;
 	width: 100%;
 	margin: 0;
 	padding: 0;
 	background: var(--map-base);
 	position: relative;
 	perspective: 1000px;
-	cursor: url('wand.png'), pointer;
+	cursor: url('wand.png') 4 13, pointer;
+	overflow-x: hidden;
+	/* locked by default (landing screen has nothing to scroll to and the
+	   map overlay covers the full viewport regardless); unlocked only
+	   while the letter is open so a tall invite can be read on mobile */
+	overflow-y: hidden;
 }
 
+body.letter-open {
+	overflow-y: auto;
+}
+
+/* Stays in normal flow so the page scrolls to the full height of the letter.
+   As an absolutely positioned element it did not extend the body's scroll
+   height, which cut off the bottom of the invitation on small screens. */
 .invite {
-	position: absolute;
+	position: relative;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	top: 0;
-	left: 0;
-	width: 100vw;
+	width: 100%;
 	min-height: 100vh;
+	min-height: 100svh;
 	z-index: 2;
 	padding: 1rem 0;
 }
@@ -60,8 +81,11 @@ body {
 	background: url('spots.png');
 	transform-origin: center;
 	position: absolute;
+	top: 0;
+	left: 0;
 	width: 100%;
 	height: 100%;
+	pointer-events: none;
 }
 
 .left {
@@ -88,6 +112,7 @@ body {
 }
 
 .invite-copy {
+	position: relative;
 	max-width: 800px;
 	height: 100%;
 	display: flex;
@@ -141,6 +166,171 @@ body {
 	font-size: .9rem;
 }
 
+.countdown {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	gap: .6rem;
+	padding-bottom: 1.2rem;
+}
+
+.countdown-done {
+	font-size: .95rem;
+	color: var(--ink);
+}
+
+.countdown-unit {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: .3rem;
+}
+
+/* Mechanical split-flap card: two static halves (.leaf-top / .leaf-bottom)
+   always show the currently-settled digit and never animate. Two flaps sit
+   over them - .flap-top (showing the OLD digit) falls away like a page
+   turning down, revealing the new top half of .leaf-top underneath; then
+   .flap-bottom (showing the NEW digit, initially folded flat against the
+   hinge) unfolds down into place, covering .leaf-bottom's old digit. Each
+   layer renders a digit sized to the FULL card height and shifted so only
+   its half peeks through the 50%-tall, overflow-hidden box - that's what
+   keeps the numerals correctly centered across the seam instead of
+   drifting per the font's own vertical metrics. */
+.countdown-card {
+	position: relative;
+	width: 2.6rem;
+	height: 2.9rem;
+	--flip-h: 2.9rem;
+	--flip-half: 1.45rem;
+	perspective: 6rem;
+	/* the frame lives on the card itself, not the individual halves: a
+	   border on only one half (the seam-side border is removed per half)
+	   would inset that half's padding box by the border width under our
+	   box-sizing:border-box reset, shifting its digit relative to the
+	   other half by a couple pixels - exactly the "not fully centered"
+	   bug this replaced */
+	border: 1.5px solid var(--ink);
+	border-radius: 6px;
+	overflow: hidden;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.countdown-half {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: var(--flip-half);
+	overflow: hidden;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.08)), var(--map-base);
+	backface-visibility: hidden;
+}
+
+.countdown-half span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: var(--flip-h);
+	text-align: center;
+	font-family: var(--fun);
+	font-size: 1.4rem;
+	color: var(--ink-dark);
+	/* fun-font's built-in metrics aren't symmetric around its glyph ink, so
+	   flex-centering the line box alone still looks visibly off-center;
+	   this is measured at runtime against the actual rendered glyph and
+	   set on :root - see calibrateCountdownDigitOffset() in script.js */
+	transform: translateY(var(--countdown-digit-shift, 0px));
+}
+
+.countdown-leaf-top,
+.countdown-flap-top {
+	top: 0;
+}
+
+.countdown-leaf-bottom,
+.countdown-flap-bottom {
+	/* anchored from the same edge (top) as the top half, rather than
+	   bottom:0, so both halves share one coordinate basis instead of two
+	   independently-rounded ones */
+	top: var(--flip-half);
+	box-shadow: inset 0 6px 6px -6px rgba(0, 0, 0, 0.4);
+}
+
+.countdown-leaf-top span,
+.countdown-flap-top span {
+	top: 0;
+}
+
+.countdown-leaf-bottom span,
+.countdown-flap-bottom span {
+	top: calc(-1 * var(--flip-half));
+}
+
+.countdown-leaf-top { z-index: 1; }
+.countdown-leaf-bottom { z-index: 1; }
+.countdown-flap-bottom {
+	z-index: 2;
+	transform-origin: top;
+	transform: rotateX(90deg);
+	transition: transform .25s ease-in;
+	transition-delay: .2s;
+}
+.countdown-flap-top {
+	z-index: 3;
+	transform-origin: bottom;
+	transform: rotateX(0deg);
+	transition: transform .25s ease-in;
+}
+
+.countdown-card.flipping .countdown-flap-top {
+	transform: rotateX(-90deg);
+}
+
+.countdown-card.flipping .countdown-flap-bottom {
+	transform: rotateX(0deg);
+}
+
+.countdown-label {
+	font-size: .6rem;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.countdown-flap-top,
+	.countdown-flap-bottom {
+		transition: none;
+	}
+}
+
+.noscript-invite {
+	max-width: 500px;
+	margin: 3rem auto;
+	padding: 1.5rem;
+	text-align: center;
+	color: var(--ink-dark);
+	font-family: var(--font);
+}
+
+.noscript-invite h1 {
+	font-family: var(--script);
+	color: var(--ink);
+	font-size: 2rem;
+	margin-bottom: 1rem;
+}
+
+.noscript-invite p {
+	margin-bottom: 1rem;
+}
+
+.noscript-invite a {
+	color: var(--ink-dark);
+}
+
 h2.signature {
 	font-size: 40px;
 }
@@ -151,27 +341,29 @@ h2.signature {
 	font-family: var(--script);
 }
 
-.form-link a {
+.form-link {
 	color: var(--ink-dark);
 	text-decoration: none;
 	font-weight: 700;
 	transition: all 0.5s ease-in-out;
-	cursor: url('wand.png'), pointer;
+	cursor: url('wand.png') 4 13, pointer;
 }
 
 .links {
 	text-decoration: none;
-	cursor: url('wand.png'), pointer;
+	cursor: url('wand.png') 4 13, pointer;
 	color: var(--ink-dark);
 }
 
-.form-link a:hover, .links:hover {
+.links:hover {
 	color: var(--ink);
 	text-decoration: wavy underline;
 }
 
+/* Fixed to the viewport so the reveal animation is always one screen tall,
+   no matter how far the letter behind it scrolls. */
 .map {
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -214,26 +406,36 @@ h2.signature {
 	position: absolute;
 }
 
+/* Sized like object-fit: contain against the FULL viewport (not just this
+   panel's 50% slice), so the whole map is always visible - limited by
+   width on a tall/narrow viewport, by height on a wide/short one, never
+   cropped. Both panels position an identical copy of the map at the same
+   absolute viewport coordinates; each panel is only 50% wide with
+   overflow hidden, so it naturally clips down to just its own half - the
+   two halves still line up as one continuous image. */
 .map-left,
 .map-right {
 	position: absolute;
 	top: 50%;
-	transform: translateY(-50%);
-	width: 200%;
-	height: 100%;
+	width: min(100vw, calc(100vh * 720 / 800));
+	aspect-ratio: 720 / 800;
+	max-height: 100vh;
+	transform: translate(-50%, -50%);
 	transition: all 2s ease-in-out;
-	object-fit: cover;
+	object-fit: contain;
 	opacity: 1;
 }
 
+/* left-panel's own left edge is at viewport x=0, so left:50vw lands the
+   video's center on the viewport's horizontal center */
 .map-left {
-	left: 0;
-	transform-origin: left;
+	left: 50vw;
 }
 
+/* right-panel's own left edge is already at viewport x=50vw, so left:0
+   lands this copy's center on that same viewport-center point */
 .map-right {
-	right: 0;
-	transform-origin: right;
+	left: 0;
 }
 
 .wand {
@@ -261,55 +463,97 @@ h2.signature {
 	align-items: center;
 	width: 200px;
 	height: 80px;
-	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.8);
 	color: var(--ink);
+	font-family: var(--font);
 	font-size: 20px;
 	font-weight: 700;
+	line-height: 1.5rem;
 	text-align: center;
+	text-decoration: none;
+	/* glassmorphism: translucent frosted panel over the parchment/map behind it */
+	background: rgba(255, 250, 240, 0.35);
+	backdrop-filter: blur(10px) saturate(160%);
+	-webkit-backdrop-filter: blur(10px) saturate(160%);
+	-webkit-appearance: none;
+	appearance: none;
 	border-radius: 20px;
-	border: 2px solid var(--ink);
+	border: 1.5px solid rgba(65, 0, 0, 0.45);
+	box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.5);
 	overflow: hidden;
 	padding: 10px;
 	margin: 10px;
 	z-index: 5;
-	cursor: url('wand.png'), pointer;
+	cursor: url('wand.png') 4 13, pointer;
 	transition: all 0.5s ease-in-out;
 	opacity: 1;
+	/* keep a tap from selecting the label text instead of firing the button */
+	user-select: none;
+	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
 }
 
-.rsvp-btn a,
-.cal-btn a {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 100%;
-	height: 100%;
-	line-height: 1.5rem;
-	padding: 0;
-	margin: 0;
-}
-
-.open-btn {
+.landing {
 	position: absolute;
-	top: 65%;
+	top: 60%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	z-index: 5;
+}
+
+.landing-title {
+	margin-bottom: .5rem;
+	text-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.landing-tagline {
+	margin-top: .5rem;
+	font-size: .85rem;
+	letter-spacing: 1px;
+	color: var(--ink-dark);
+	text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
 }
 
 .open-btn:hover, .close-btn:hover, .cal-btn:hover, .rsvp-btn:hover {
 	width: 240px;
 	height: 85px;
-	background: rgba(255, 235, 205, 0.5);
-	backdrop-filter: blur(10px);
+	background: rgba(255, 245, 225, 0.55);
+	backdrop-filter: blur(14px) saturate(180%);
+	-webkit-backdrop-filter: blur(14px) saturate(180%);
 	letter-spacing: 2px;
-	box-shadow: 0 0 40px rgba(85, 0, 0, 0.5);
+	box-shadow: 0 0 40px rgba(85, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.open-btn:focus-visible, .close-btn:focus-visible, .cal-btn:focus-visible, .rsvp-btn:focus-visible {
+	outline: 3px solid var(--ink);
+	outline-offset: 4px;
+}
+
+/* Footprints live in their own layer confined to the invitation text, so they
+   wander around the letter while it's open instead of the whole page.
+   Previously they were appended straight to <body> at random page
+   coordinates, which made document.scrollHeight change every second and
+   shifted the page under you. */
+.shoe-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .shoe-print {
   position: absolute;
-  width: 10px;
-  height: 27px;
-  opacity: 1;
+  width: 8px;
+  height: 22px;
+  opacity: 0.65;
   transition: opacity 1s ease-out;
 }
 
@@ -318,20 +562,20 @@ h2.signature {
   content: '';
   position: absolute;
   border-radius: 50%;
-  background-color: var(--ink);
+  background-color: var(--foot-step);
 }
 
 .shoe-print::before {
-  width: 10px;
-  height: 20px;
+  width: 8px;
+  height: 15px;
   top: 0;
   left: 0;
 }
 
 .shoe-print::after {
-  width: 8px;
-  height: 12px;
-  top: 15px;
+  width: 6px;
+  height: 9px;
+  top: 13px;
   left: 1px;
 }
 
@@ -343,6 +587,24 @@ h2.signature {
 	opacity: 0;
 	z-index: -1;
 	height: 0;
+	/* hidden from layout, scroll height, pointer events and the tab order */
+	overflow: hidden;
+	visibility: hidden;
+	pointer-events: none;
+}
+
+/* The map backdrop and the landing screen fade rather than cut, so
+   opening/closing reads as one continuous animation instead of a jump.
+   Showing flips visibility on immediately while opacity fades in; hiding
+   delays the visibility flip until the opacity fade has finished. */
+.map,
+.landing {
+	transition: opacity .5s ease, visibility 0s linear 0s;
+}
+
+.map.cloaked,
+.landing.cloaked {
+	transition: opacity .5s ease, visibility 0s linear .5s;
 }
 
 /*-- For Animation -- */
